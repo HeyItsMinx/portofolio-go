@@ -1,1 +1,2 @@
 DROP TABLE IF EXISTS projects;
+DROP EXTENSION IF EXISTS "pgcrypto";
