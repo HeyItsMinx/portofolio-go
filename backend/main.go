@@ -26,7 +26,7 @@ type Project struct {
 	MyRole       string          `json:"my_role"`
 	KeyDecision  string          `json:"key_decision"`
 	Outcome      string          `json:"outcome"`
-	TechStack    string          `json:"tech_stack"`
+	TechStack    []string        `json:"tech_stack"`
 	Metrics      json.RawMessage `json:"metrics"`
 	Architecture json.RawMessage `json:"architecture"`
 	IsFeatured   bool            `json:"is_featured"`
@@ -112,7 +112,8 @@ func getProjects(w http.ResponseWriter, r *http.Request) {
 func createProject(w http.ResponseWriter, r *http.Request) {
 	var p Project
 	if err := json.NewDecoder(r.Body).Decode(&p); err != nil {
-		http.Error(w, "Invalid request payload", http.StatusBadRequest)
+		log.Printf("JSON Decode Error: %v/n", err)
+		http.Error(w, fmt.Sprintf("Invalid request payload: %v", err), http.StatusBadRequest)
 		return
 	}
 
@@ -130,10 +131,11 @@ func createProject(w http.ResponseWriter, r *http.Request) {
 		query,
 		p.Slug, p.Title, p.ClientLabel, p.Category, p.Summary,
 		p.Problem, p.MyRole, p.KeyDecision, p.Outcome, pq.Array(p.TechStack),
-		p.Metrics, p.Architecture, p.IsFeatured, p.SortOrder,
+		string(p.Metrics), string(p.Architecture), p.IsFeatured, p.SortOrder,
 	).Scan(&p.ID, &p.CreatedAt, &p.UpdatedAt)
 
 	if err != nil {
+		log.Println("Database Insert Error:", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
@@ -164,10 +166,11 @@ func updateProject(w http.ResponseWriter, r *http.Request) {
 		query,
 		p.Slug, p.Title, p.ClientLabel, p.Category, p.Summary,
 		p.Problem, p.MyRole, p.KeyDecision, p.Outcome, pq.Array(p.TechStack),
-		p.Metrics, p.Architecture, p.IsFeatured, p.SortOrder, id,
+		string(p.Metrics), string(p.Architecture), p.IsFeatured, p.SortOrder, id,
 	)
 
 	if err != nil {
+		log.Println("Database Insert Error:", err)
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
