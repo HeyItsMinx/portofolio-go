@@ -49,20 +49,6 @@ func initDB() {
 	}
 
 	log.Println("Connected to PostgreSQL")
-
-	createTableQuery := `
-	CREATE TABLE IF NOT EXISTS architecture_case_study (
-		id SERIAL PRIMARY KEY,
-		title VARCHAR(255) NOT NULL,
-		description TEXT,
-		created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-	);`
-
-	_, err = db.Exec(createTableQuery)
-	if err != nil {
-		log.Fatalf("Failed to create table: %v", err)
-	}
-	log.Println("Table 'architecture_case_study' is ready.")
 }
 
 func apiHandler(w http.ResponseWriter, r *http.Request) {
