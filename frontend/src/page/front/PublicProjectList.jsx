@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { api } from '../../lib/api';
 import SpotlightCard from '../../components/magic/SpotlightCard';
 
 export default function PublicProjectList() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:8080/api/project')
-      .then(res => res.json())
+    api.getProjects()
       .then(data => setProjects(data || []))
       .catch(err => console.error("Fetch error:", err));
   }, []);

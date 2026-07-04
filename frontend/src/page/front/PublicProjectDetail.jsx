@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { api } from '../../lib/api';
 
 export default function PublicProjectDetail() {
   const { slug } = useParams();
@@ -7,7 +8,7 @@ export default function PublicProjectDetail() {
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/api/project/slug/${slug}`)
+    api.getProjectBySlug(slug)
       .then(res => {
         if (res.status === 404) { setNotFound(true); return null; }
         if (!res.ok) throw new Error("Network response was not ok");
