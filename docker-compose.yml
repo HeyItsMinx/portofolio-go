@@ -2,15 +2,15 @@ services:
   database:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: HeyItsMinx11
-      POSTGRES_DB: porto-db
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d porto-db"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -21,7 +21,7 @@ services:
       - ./backend/migrations:/migrations
     command:
       - -path=/migrations
-      - -database=postgres://admin:HeyItsMinx11@database:5432/porto-db?sslmode=disable
+      - -database=postgres://${DB_USER}:${DB_PASSWORD}@database:5432/${DB_NAME}?sslmode=disable
       - up
     depends_on:
       database:
@@ -36,11 +36,11 @@ services:
       - ./backend:/app
     environment:
       - DB_HOST=database
-      - DB_USER=admin
-      - DB_PASSWORD=HeyItsMinx11
-      - DB_NAME=porto-db
       - DB_PORT=5432
-      - JWT_SECRET=5541739f9702e6634aeedb9e24163467563385423503581c8dbbb2f0b4b8ad5b
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - JWT_SECRET=${JWT_SECRET}
     depends_on:
       database:
         condition: service_healthy
@@ -51,7 +51,7 @@ services:
     build:
       context: ./frontend
       args:
-        VITE_API_URL: http://localhost:8080/api
+        VITE_API_URL: ${VITE_API_URL}
     ports:
       - "3000:80"
     depends_on:
