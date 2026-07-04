@@ -1,4 +1,4 @@
-# Developer Portofolio & Admin Engine
+# Developer Portfolio
 
 ## Tech Stack & Infrastructure
 ### Orchestration
