@@ -31,6 +31,7 @@ services:
     build: ./backend
     ports:
       - "8080:8080"
+    command: air
     volumes:
       - ./backend:/app
     environment:
@@ -39,6 +40,7 @@ services:
       - DB_PASSWORD=HeyItsMinx11
       - DB_NAME=porto-db
       - DB_PORT=5432
+      - JWT_SECRET=5541739f9702e6634aeedb9e24163467563385423503581c8dbbb2f0b4b8ad5b
     depends_on:
       database:
         condition: service_healthy
