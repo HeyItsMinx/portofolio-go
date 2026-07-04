@@ -80,7 +80,12 @@ body {
 
     --sidebar-border: oklch(0.922 0 0);
 
-    --sidebar-ring: oklch(0.708 0 0)
+    --sidebar-ring: oklch(0.708 0 0);
+
+    --void: #000000;
+    --blood: #FF0000;
+    --blood-dim: #990000;
+    --white-hot: #FFFFFF;
   }
   .dark {
 
@@ -155,4 +160,16 @@ body {
   html {
     @apply font-sans;
   }
+}
+
+.clip-slant {
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
+}
+
+.clip-corner-cut {
+  clip-path: polygon(0 12px, 12px 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.clip-diagonal-divider {
+  clip-path: polygon(0 15%, 100% 0, 100% 100%, 0 100%);
 }
