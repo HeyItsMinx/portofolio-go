@@ -9,4 +9,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  // Local (Debug) comment if wanted to go to prod..
+  server: {
+    host: true,
+    port: 5173,
+    watch: {
+      usePolling: true,
+    }
+  }
 })
