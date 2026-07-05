@@ -2,7 +2,9 @@ import { Link, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const links = [
-  { label: 'Archive', to: '/' },
+  { label: 'Home', to: '/' },  
+  { label: 'Project', to: '/project' },
+  { label: 'Contact', to: '/contact' },
 ];
 
 export default function Navbar() {
@@ -15,7 +17,7 @@ export default function Navbar() {
     >
       <div className="max-w-7xl mx-auto px-8 h-16 flex items-center justify-between">
         <Link to="/" className="text-white font-black uppercase tracking-widest text-lg">
-          <span className="text-[var(--blood)]">/</span>Portfolio
+          <span className="text-[var(--blood)]">/ </span>Portfolio
         </Link>
 
         <div className="flex items-center gap-8">

@@ -35,8 +35,10 @@ export default function DotField() {
       mouse.x = e.clientX - rect.left;
       mouse.y = e.clientY - rect.top;
     };
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
+
+    const container = canvas.parentElement;
+    container.addEventListener('mousemove', handleMouseMove);
+    container.addEventListener('mouseleave', () => { mouse.x = -9999; mouse.y = -9999; });
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -64,7 +66,7 @@ export default function DotField() {
       cancelAnimationFrame(animationId);
       window.removeEventListener('resize', resize);
       window.removeEventListener('resize', buildDots);
-      canvas.removeEventListener('mousemove', handleMouseMove);
+      container.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 
