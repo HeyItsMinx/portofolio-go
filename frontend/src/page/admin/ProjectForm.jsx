@@ -38,7 +38,7 @@ export default function ProjectForm() {
       : api.createProject(payload, navigate);
 
     call
-      .then(() => navigate('/admin'))
+      .then(() => navigate('/admin/projects'))
       .catch(err => console.error("Submit error:", err));
   };
 
@@ -58,7 +58,7 @@ export default function ProjectForm() {
           <h2 className="text-red-600 uppercase font-black text-2xl m-0 tracking-wide">
             {existingProject ? 'Update Architecture Target' : 'Inject New Case Study'}
           </h2>
-          <Link to="/admin" className="text-gray-400 hover:text-white uppercase font-bold text-sm tracking-widest border border-neutral-700 px-4 py-2 hover:border-red-600 transition-colors">
+          <Link to="/admin/projects" className="text-gray-400 hover:text-white uppercase font-bold text-sm tracking-widest border border-neutral-700 px-4 py-2 hover:border-red-600 transition-colors">
             Abort
           </Link>
         </div>

@@ -37,7 +37,7 @@ export default function ProjectList() {
                 <h1 className="skew-x-12 uppercase font-black tracking-widest text-2xl m-0">Architecture Archive</h1>
                 </div>
                 <Link 
-                to="/admin/form" 
+                to="/admin/projects/new" 
                 className="bg-white text-black font-bold uppercase px-6 py-3 -skew-x-12 hover:bg-red-600 hover:text-white transition-colors duration-200"
                 >
                 <span className="block skew-x-12">+ New Entry</span>
@@ -57,7 +57,7 @@ export default function ProjectList() {
                             {/* Action Buttons */}
                             <div className="absolute top-4 right-4 flex gap-3 opacity-0 group-hover:opacity-100 transition-opacity z-20">
                                 <button 
-                                onClick={() => navigate('/admin/form', { state: { project: p } })}
+                                onClick={() => navigate('/admin/projects/new', { state: { project: p } })}
                                 className="text-white border border-white px-4 py-1 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors -skew-x-12"
                                 >
                                 <span className="block skew-x-12">Edit</span>
