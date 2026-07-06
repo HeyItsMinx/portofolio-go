@@ -184,3 +184,27 @@ body {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
+
+/* Highlight */
+::selection {
+  background: var(--blood);
+  color: #000000;
+}
+
+::-moz-selection {
+  background: var(--blood);
+  color: #000000;
+}
+
+/* Cursor */
+@media (min-width: 768px) {
+  * {
+    cursor: none !important;
+  }
+}
+
+/* Status Ticker */
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}

@@ -1,7 +1,7 @@
 const LINKS = [
-  { label: 'github', href: 'https://github.com/yourusername' },
-  { label: 'linkedin', href: 'https://linkedin.com/in/yourusername' },
-  { label: 'email', href: 'mailto:you@example.com' },
+  { label: 'github', href: 'https://github.com/HeyItsMinx' },
+  { label: 'linkedin', href: 'https://linkedin.com/in/samuel-rev20' },
+  { label: 'email', href: 'mailto:samuelrev04@gmail.com' },
 ];
 
 export default function TerminalFooter() {
@@ -13,7 +13,7 @@ export default function TerminalFooter() {
         </div>
         <div className="flex gap-8">
           {LINKS.map(link => (
-            
+            <a
               key={link.label}
               href={link.href}
               target="_blank"
