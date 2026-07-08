@@ -3,6 +3,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { api } from '../../lib/api';
 import RichTextEditor from '@/components/editor/RichTextEditor';
 import ImageUpload from '@/components/editor/ImageUpload';
+import GalleryUpload from '@/components/editor/GalleryUpload';
 
 const TABS = ['Overview', 'Narrative', 'Tech & Meta'];
 
@@ -14,7 +15,7 @@ export default function ProjectForm() {
 
   const [form, setForm] = useState({
     slug: '', title: '', client_label: '', category: '', summary: '',
-    description: '', cover_image_url: '',
+    description: '', cover_image_url: '', gallery_images: [],
     problem: '', my_role: '', key_decision: '', outcome: '',
     tech_stack: '', is_featured: false, sort_order: 0
   });
@@ -94,6 +95,10 @@ export default function ProjectForm() {
             </div>
             <textarea name="summary" placeholder="Executive Summary (card teaser)" value={form.summary} onChange={handleChange} className={`${inputStyles} min-h-[100px]`} />
             <ImageUpload value={form.cover_image_url} onChange={(url) => setForm(prev => ({ ...prev, cover_image_url: url }))} />
+            <GalleryUpload
+              images={form.gallery_images}
+              onChange={(images) => setForm(prev => ({ ...prev, gallery_images: images }))}
+            />
           </>
         )}
 

@@ -19,7 +19,7 @@ export default function AdminHome() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-neutral-950 border-2 border-neutral-800 p-6">
-          <p className="text-gray-500 uppercase text-xs tracking-widest mb-2">Total Case Studies</p>
+          <p className="text-gray-500 uppercase text-xs tracking-widest mb-2">Total Projects</p>
           <p className="text-[var(--blood)] text-5xl font-black">
             {count === null ? '—' : count}
           </p>

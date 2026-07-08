@@ -4,7 +4,7 @@ export default function BentoGrid({ projects }) {
   if (projects.length === 0) {
     return (
       <p className="text-gray-500 text-center py-24 uppercase tracking-widest text-sm">
-        No case studies found.
+        No project found.
       </p>
     );
   }
