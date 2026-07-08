@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/HeyItsMinx/portofolio-go/admin"
+	"github.com/HeyItsMinx/portofolio-go.git/admin"
 )
 
 func main() {
@@ -12,13 +12,17 @@ func main() {
 
 	mux := http.NewServeMux()
 
-	mux.HandleFunc("GET /api/project", admin.getProjects)
-	mux.HandleFunc("GET /api/project/slug/{slug}", admin.getProjectBySlug)
+	mux.HandleFunc("GET /api/project", admin.GetProjects)
+	mux.HandleFunc("GET /api/project/slug/{slug}", admin.GetProjectBySlug)
 	mux.HandleFunc("POST /api/login", admin.Login)
 
-	mux.Handle("POST /api/project", admin.AuthMiddleware(http.HandlerFunc(admin.createProject)))
-	mux.Handle("PUT /api/project/{id}", admin.AuthMiddleware(http.HandlerFunc(admin.updateProject)))
-	mux.Handle("DELETE /api/project/{id}", admin.AuthMiddleware(http.HandlerFunc(admin.deleteProject)))
+	mux.Handle("POST /api/project", admin.AuthMiddleware(http.HandlerFunc(admin.CreateProject)))
+	mux.Handle("PUT /api/project/{id}", admin.AuthMiddleware(http.HandlerFunc(admin.UpdateProject)))
+	mux.Handle("DELETE /api/project/{id}", admin.AuthMiddleware(http.HandlerFunc(admin.DeleteProject)))
+
+	// Image Handler
+	mux.Handle("/api/upload", admin.AuthMiddleware(http.HandlerFunc(admin.UploadImage)))
+	mux.Handle("GET /uploads/", http.StripPrefix("/uploads/", http.FileServer(http.Dir("./uploads"))))
 
 	handler := admin.Middleware(mux)
 

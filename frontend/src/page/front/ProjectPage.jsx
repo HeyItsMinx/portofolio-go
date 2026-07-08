@@ -9,7 +9,7 @@ export default function ProjectsPage() {
   const [projects, setProjects] = useState([]);
 
   useEffect(() => {
-    api.getProjects()
+    api.GetProjects()
       .then(data => setProjects(data || []))
       .catch(err => console.error("Fetch error:", err));
   }, []);

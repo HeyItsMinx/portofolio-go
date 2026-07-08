@@ -25,27 +25,40 @@ export const api = {
       body: JSON.stringify({ username, password })
     }),
 
-  getProjects: () => fetch(`${API_BASE}/project`).then(res => res.json()),
+  GetProjects: () => fetch(`${API_BASE}/project`).then(res => res.json()),
 
-  getProjectBySlug: (slug) => fetch(`${API_BASE}/project/slug/${slug}`),
+  GetProjectBySlug: (slug) => fetch(`${API_BASE}/project/slug/${slug}`),
 
-  createProject: (payload, navigate) =>
+  CreateProject: (payload, navigate) =>
     fetch(`${API_BASE}/project`, {
       method: 'POST',
       headers: authHeaders(),
       body: JSON.stringify(payload)
     }).then(res => handleResponse(res, navigate)),
 
-  updateProject: (id, payload, navigate) =>
+  UpdateProject: (id, payload, navigate) =>
     fetch(`${API_BASE}/project/${id}`, {
       method: 'PUT',
       headers: authHeaders(),
       body: JSON.stringify(payload)
     }).then(res => handleResponse(res, navigate)),
 
-  deleteProject: (id, navigate) =>
+  DeleteProject: (id, navigate) =>
     fetch(`${API_BASE}/project/${id}`, {
       method: 'DELETE',
       headers: authHeaders()
     }).then(res => handleResponse(res, navigate)),
+
+  uploadImage: (file) => {
+    const formData = new FormData();
+    formData.append('image', file);
+    return fetch(`${API_BASE}/upload`, {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
+      body: formData,
+    }).then(res => {
+      if (!res.ok) throw new Error('Upload failed');
+      return res.json();
+    }).then(data => data.url);
+  },
 };

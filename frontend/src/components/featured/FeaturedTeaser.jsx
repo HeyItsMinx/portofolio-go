@@ -8,7 +8,7 @@ export default function FeaturedTeaser() {
   const [featured, setFeatured] = useState(null);
 
   useEffect(() => {
-    api.getProjects()
+    api.GetProjects()
       .then(data => {
         const list = data || [];
         setFeatured(list.find(p => p.is_featured) || list[0] || null);

@@ -6,7 +6,7 @@ export default function AdminHome() {
   const [count, setCount] = useState(null);
 
   useEffect(() => {
-    api.getProjects()
+    api.GetProjects()
       .then(data => setCount((data || []).length))
       .catch(() => setCount(0));
   }, []);

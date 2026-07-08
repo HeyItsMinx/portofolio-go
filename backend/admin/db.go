@@ -11,7 +11,7 @@ import (
 
 var db *sql.DB
 
-func initDB() {
+func InitDB() {
 	var err error
 
 	connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",

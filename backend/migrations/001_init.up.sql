@@ -7,6 +7,9 @@ CREATE TABLE IF NOT EXISTS projects (
     client_label TEXT NOT NULL,
     category TEXT NOT NULL,
     summary TEXT NOT NULL,
+    gallery_images TEXT[] NOT NULL DEFAULT '{}',
+    cover_image_url TEXT NOT NULL,
+    description TEXT NOT NULL,
 
     -- Case Study
     problem TEXT NOT NULL,
