@@ -57,7 +57,7 @@ export default function ProjectForm() {
     <div className="p-8">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-white uppercase font-black text-2xl tracking-wide">
-          {existingProject ? 'Update Case Study' : 'New Case Study'}
+          {existingProject ? 'Update Project' : 'New Project'}
         </h2>
         <Link to="/admin/projects" className="text-gray-400 hover:text-white uppercase font-bold text-sm tracking-widest border-2 border-neutral-800 px-4 py-2 hover:border-[var(--blood)] transition-colors duration-150">
           Abort
@@ -109,7 +109,7 @@ export default function ProjectForm() {
               <RichTextEditor
                 content={form.description}
                 onChange={(html) => setForm(prev => ({ ...prev, description: html }))}
-                placeholder="Write the full case study narrative..."
+                placeholder="Write the full project narrative..."
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -138,7 +138,7 @@ export default function ProjectForm() {
         )}
 
         <button type="submit" className="bg-white text-black font-bold uppercase p-4 mt-4 hover:bg-[var(--blood)] hover:text-white transition-colors duration-150 tracking-widest text-lg">
-          {existingProject ? 'Save Changes' : 'Deploy Case Study'}
+          {existingProject ? 'Save Changes' : 'Deploy Project'}
         </button>
       </form>
     </div>

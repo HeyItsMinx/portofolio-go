@@ -10,6 +10,7 @@ import ProjectPage from './page/front/ProjectPage';
 import Contact from './page/front/Contact';
 import PublicProjectDetail from './page/front/PublicProjectDetail';
 import PublicLayout from './components/layout/PublicLayout';
+import Journey from './page/front/Journey';
 
 // Admin Router
 import Login from "./page/front/Login";
@@ -17,6 +18,8 @@ import AdminLayout from './page/admin/AdminLayout';
 import AdminHome from './page/admin/AdminHome';
 import ProjectList from './page/admin/ProjectList';
 import ProjectForm from './page/admin/ProjectForm';
+import MilestoneForm from './page/admin/milestone/MilestoneForm';
+import MilestoneList from './page/admin/milestone/MilestoneList';
 
 function App() {
   const [booted, setBooted] = useState(() => sessionStorage.getItem('booted') === 'true');
@@ -37,6 +40,7 @@ function App() {
           <Route path="/project" element={<PublicLayout><ProjectPage /></PublicLayout>} />
           <Route path="/project/:slug" element={<PublicLayout><PublicProjectDetail /></PublicLayout>} />
           <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
+          <Route path="/journey" element={<PublicLayout><Journey /></PublicLayout>} />
 
           {/* Admin */}
           <Route path="/login" element={<Login />} />
@@ -45,6 +49,8 @@ function App() {
             <Route path="projects" element={<ProjectList />} />
             <Route path="projects/new" element={<ProjectForm />} />
             <Route path="projects/:id/edit" element={<ProjectForm />} />
+            <Route path="milestones" element={<MilestoneList />} />
+            <Route path="milestones/new" element={<MilestoneForm />} />
           </Route>
         </Routes>
       </BrowserRouter>

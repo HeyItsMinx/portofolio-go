@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 const MODULES = [
   { label: 'Dashboard', to: '/admin', end: true },
   { label: 'Projects', to: '/admin/projects', end: false },
+  { label: 'Journey', to: '/admin/milestones', end: false }
 ];
 
 export default function Sidebar() {

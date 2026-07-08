@@ -18,6 +18,7 @@ function handleResponse(res, navigate) {
 }
 
 export const api = {
+  // Login
   login: (username, password) =>
     fetch(`${API_BASE}/login`, {
       method: 'POST',
@@ -25,6 +26,7 @@ export const api = {
       body: JSON.stringify({ username, password })
     }),
 
+  // Project
   GetProjects: () => fetch(`${API_BASE}/project`).then(res => res.json()),
 
   GetProjectBySlug: (slug) => fetch(`${API_BASE}/project/slug/${slug}`),
@@ -61,4 +63,35 @@ export const api = {
       return res.json();
     }).then(data => data.url);
   },
+
+  deleteImage: (url, navigate) =>
+    fetch(`${API_BASE}/upload`, {
+      method: 'DELETE',
+      headers: authHeaders(),
+      body: JSON.stringify({ url })
+    }).then(res => handleResponse(res, navigate)
+  ),
+
+  // Milestone
+  getMilestones: () => fetch(`${API_BASE}/milestone`).then(res => res.json()),
+
+  createMilestone: (payload, navigate) =>
+    fetch(`${API_BASE}/milestone`, {
+      method: 'POST',
+      headers: authHeaders(),
+      body: JSON.stringify(payload)
+    }).then(res => handleResponse(res, navigate)),
+
+  updateMilestone: (id, payload, navigate) =>
+    fetch(`${API_BASE}/milestone/${id}`, {
+      method: 'PUT',
+      headers: authHeaders(),
+      body: JSON.stringify(payload)
+    }).then(res => handleResponse(res, navigate)),
+
+  deleteMilestone: (id, navigate) =>
+    fetch(`${API_BASE}/milestone/${id}`, {
+      method: 'DELETE',
+      headers: authHeaders()
+    }).then(res => handleResponse(res, navigate)),
 };

@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS projects (
     cover_image_url TEXT NOT NULL,
     description TEXT NOT NULL,
 
-    -- Case Study
+    -- Project
     problem TEXT NOT NULL,
     my_role TEXT NOT NULL,
     key_decision TEXT NOT NULL,
@@ -32,6 +32,18 @@ CREATE TABLE IF NOT EXISTS admins(
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username TEXT UNIQUE NOT NULL,
     password TEXT NOT NULL,
+    created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE milestones (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    title TEXT NOT NULL,
+    organization TEXT NOT NULL DEFAULT '',
+    milestone_type TEXT NOT NULL DEFAULT 'work',
+    description TEXT NOT NULL DEFAULT '',
+    date_label TEXT NOT NULL DEFAULT '',
+    sort_order INT NOT NULL DEFAULT 0,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );

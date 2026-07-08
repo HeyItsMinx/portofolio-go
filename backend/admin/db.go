@@ -9,7 +9,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var db *sql.DB
+var DB *sql.DB
 
 func InitDB() {
 	var err error
@@ -22,12 +22,12 @@ func InitDB() {
 		os.Getenv("DB_NAME"),
 	)
 
-	db, err = sql.Open("postgres", connStr)
+	DB, err = sql.Open("postgres", connStr)
 	if err != nil {
 		log.Fatalf("Failed to open DB Connection: %v", err)
 	}
 
-	err = db.Ping()
+	err = DB.Ping()
 	if err != nil {
 		log.Fatalf("failed to ping DB: %v", err)
 	}

@@ -26,7 +26,7 @@ func Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var storedHash string
-	err := db.QueryRow("SELECT password_hash FROM admins WHERE username = $1", req.Username).Scan(&storedHash)
+	err := DB.QueryRow("SELECT password FROM admins WHERE username = $1", req.Username).Scan(&storedHash)
 	if err != nil {
 		http.Error(w, "Invalid credentials", http.StatusUnauthorized)
 		return

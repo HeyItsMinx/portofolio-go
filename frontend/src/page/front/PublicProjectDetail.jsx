@@ -63,7 +63,7 @@ export default function PublicProjectDetail() {
       )}
 
       <div className="max-w-4xl mx-auto px-8 -mt-4 relative z-10">
-        <Link to="/projects" className="text-gray-400 hover:text-white uppercase text-sm tracking-widest">
+        <Link to="/project" className="text-gray-400 hover:text-white uppercase text-sm tracking-widest">
           &larr; Back to Archive
         </Link>
 

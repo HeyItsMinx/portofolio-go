@@ -37,7 +37,7 @@ export default function AdminHome() {
           to="/admin/projects/new"
           className="bg-neutral-950 border-2 border-neutral-800 hover:border-[var(--blood)] p-6 transition-colors duration-150 flex flex-col justify-between"
         >
-          <p className="text-white font-black uppercase text-lg">+ New Case Study</p>
+          <p className="text-white font-black uppercase text-lg">+ New Project</p>
           <p className="text-gray-500 text-sm mt-2">Inject a new entry directly</p>
         </Link>
       </div>
