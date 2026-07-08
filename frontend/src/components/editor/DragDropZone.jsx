@@ -24,6 +24,7 @@ export default function DragDropZone({ onFile, uploading, error }) {
   const handleInputChange = (e) => {
     const file = e.target.files?.[0];
     if (file) onFile(file);
+    e.target.value = '';
   };
 
   return (
@@ -39,7 +40,7 @@ export default function DragDropZone({ onFile, uploading, error }) {
         {uploading ? 'Uploading...' : isDragging ? 'Drop it' : 'Drag & drop, or click to browse'}
       </span>
       <span className="text-neutral-700 text-[10px] uppercase tracking-widest mt-2">
-        JPG, PNG, WEBP, GIF — max 15MB
+        JPG, PNG, WEBP, GIF — max 5MB
       </span>
       <input ref={inputRef} type="file" accept="image/*" onChange={handleInputChange} className="hidden" disabled={uploading} />
       {error && <p className="text-red-500 text-xs mt-2">{error}</p>}

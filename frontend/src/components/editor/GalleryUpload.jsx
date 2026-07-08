@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { api } from '../../lib/api';
 import ImageModal from '../media/ImageModal';
 import { X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const MAX_SIZE = 5 * 1024 * 1024;
 
@@ -10,6 +11,7 @@ export default function GalleryUpload({ images = [], onChange }) {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState('');
   const [modalIndex, setModalIndex] = useState(null);
+  const navigate = useNavigate();
 
   const imgBase = import.meta.env.VITE_API_URL.replace('/api', '');
 
@@ -47,6 +49,8 @@ export default function GalleryUpload({ images = [], onChange }) {
   };
 
   const removeAt = (index) => {
+    const url = images[index];
+    api.deleteImage(url, navigate).catch(err => console.error("Delete failed:", err));
     onChange(images.filter((_, i) => i !== index));
   };
 
