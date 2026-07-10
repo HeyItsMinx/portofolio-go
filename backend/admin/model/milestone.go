@@ -8,6 +8,7 @@ type Milestone struct {
 	Organization  string    `json:"organization"`
 	MilestoneType string    `json:"milestone_type"`
 	Description   string    `json:"description"`
+	GalleryImages []string  `json:"gallery_images"`
 	DateLabel     string    `json:"date_label"`
 	SortOrder     int       `json:"sort_order"`
 	CreatedAt     time.Time `json:"created_at"`
