@@ -1,8 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { api } from '@/lib/api';
+import GalleryUpload from '@/components/editor/GalleryUpload';
 
-const TYPES = ['work', 'education', 'project', 'certification', 'activity'];
+const TYPES = ['Work', 'Organization', 'Activity', 'Education', 'Certification'];
+const PHOTO_FOCUSED_TYPES = ['Organization', 'Activity'];
 
 export default function MilestoneForm() {
   const navigate = useNavigate();
@@ -10,12 +12,12 @@ export default function MilestoneForm() {
   const existing = location.state?.milestone;
 
   const [form, setForm] = useState({
-    title: '', organization: '', milestone_type: 'work',
-    description: '', date_label: '', sort_order: 0
+    title: '', organization: '', milestone_type: 'Work',
+    description: '', date_label: '', gallery_images: [], sort_order: 0
   });
 
   useEffect(() => {
-    if (existing) setForm(existing);
+    if (existing) setForm({ ...existing, gallery_images: existing.gallery_images || [] });
   }, [existing]);
 
   const handleChange = (e) => {
@@ -35,6 +37,7 @@ export default function MilestoneForm() {
   };
 
   const inputStyles = "bg-black border-2 border-neutral-800 text-white p-3 w-full focus:outline-none focus:border-[var(--blood)] transition-colors duration-150";
+  const isPhotoFocused = PHOTO_FOCUSED_TYPES.includes(form.milestone_type);
 
   return (
     <div className="p-8">
@@ -50,7 +53,7 @@ export default function MilestoneForm() {
       <form onSubmit={handleSubmit} className="flex flex-col gap-5 max-w-2xl">
         <div className="flex gap-4">
           <input name="title" placeholder="Title (e.g. Backend Engineer)" value={form.title} onChange={handleChange} className={inputStyles} required />
-          <input name="organization" placeholder="Organization (optional)" value={form.organization} onChange={handleChange} className={inputStyles} />
+          <input name="organization" placeholder="Organization / Company (optional)" value={form.organization} onChange={handleChange} className={inputStyles} />
         </div>
 
         <div className="flex gap-4">
@@ -60,7 +63,20 @@ export default function MilestoneForm() {
           <input name="date_label" placeholder="Date Label (e.g. 2023 — Present)" value={form.date_label} onChange={handleChange} className={inputStyles} />
         </div>
 
-        <textarea name="description" placeholder="What happened here?" value={form.description} onChange={handleChange} className={`${inputStyles} min-h-[120px]`} />
+        <textarea
+          name="description"
+          placeholder={isPhotoFocused ? "Short caption (optional)" : "What did you actually do here?"}
+          value={form.description}
+          onChange={handleChange}
+          className={`${inputStyles} min-h-[120px]`}
+        />
+
+        {isPhotoFocused && (
+          <GalleryUpload
+            images={form.gallery_images}
+            onChange={(images) => setForm(prev => ({ ...prev, gallery_images: images }))}
+          />
+        )}
 
         <label className="flex items-center gap-2 text-gray-400 uppercase text-xs tracking-widest">
           Sort Order
