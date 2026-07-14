@@ -1,10 +1,52 @@
-import { useState, useRef } from 'react';
-import { motion } from 'framer-motion';
+import { useState, useRef, useEffect } from 'react';
+import { motion, useAnimationFrame, useScroll, useVelocity, useSpring, useTransform } from 'framer-motion';
 import ImageModal from '../media/ImageModal';
 
 export default function ActivityStrip({ milestones, imgBase }) {
   const [modal, setModal] = useState(null);
   const scrollRef = useRef(null);
+  const isInteracting = useRef(false);
+  const resumeTimeout = useRef(null);
+
+  const { scrollY } = useScroll();
+  const scrollVelocity = useVelocity(scrollY);
+  const smoothVelocity = useSpring(scrollVelocity, { damping: 50, stiffness: 400 });
+  const velocityFactor = useTransform(smoothVelocity, [-2000, 0, 2000], [5, 1, 5], { clamp: false });
+
+  const baseSpeed = 24;
+
+  useAnimationFrame((t, delta) => {
+    const el = scrollRef.current;
+    if (!el || isInteracting.current) return;
+
+    const factor = velocityFactor.get();
+    const moveBy = baseSpeed * factor * (delta / 1000);
+
+    const maxScroll = el.scrollWidth - el.clientWidth;
+    if (maxScroll <= 0) return;
+
+    let next = el.scrollLeft + moveBy;
+    if (next >= maxScroll) next = 0; 
+    el.scrollLeft = next;
+  });
+
+  const pause = () => {
+    isInteracting.current = true;
+    if (resumeTimeout.current) clearTimeout(resumeTimeout.current);
+  };
+
+  const resumeAfterDelay = () => {
+    if (resumeTimeout.current) clearTimeout(resumeTimeout.current);
+    resumeTimeout.current = setTimeout(() => {
+      isInteracting.current = false;
+    }, 1200); 
+  };
+
+  useEffect(() => {
+    return () => {
+      if (resumeTimeout.current) clearTimeout(resumeTimeout.current);
+    };
+  }, []);
 
   if (milestones.length === 0) return null;
 
@@ -14,7 +56,14 @@ export default function ActivityStrip({ milestones, imgBase }) {
         <p className="text-[var(--blood)] uppercase tracking-[0.3em] text-xs font-bold">Activity</p>
       </div>
 
-      <div ref={scrollRef} className="flex gap-5 overflow-x-auto px-8 pb-4 snap-x snap-mandatory scrollbar-hide">
+      <div
+        ref={scrollRef}
+        onPointerDown={pause}
+        onPointerUp={resumeAfterDelay}
+        onPointerLeave={resumeAfterDelay}
+        onWheel={pause}
+        className="flex gap-5 overflow-x-auto px-8 pb-4 snap-x snap-mandatory scrollbar-hide"
+      >
         {milestones.map((m, i) => {
           const images = (m.gallery_images || []).map(url => `${imgBase}${url}`);
           const cover = images[0];
