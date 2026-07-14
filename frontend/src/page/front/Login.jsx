@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { api } from '@/lib/api';
 
 export default function Login() {
   const [form, setForm] = useState({ username: '', password: '' });
@@ -8,11 +9,7 @@ export default function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch('http://localhost:8080/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form)
-    })
+    api.login(form.username, form.password)
       .then(res => {
         if (!res.ok) throw new Error("Invalid credentials");
         return res.json();
@@ -24,22 +21,28 @@ export default function Login() {
       .catch(() => setError('Invalid username or password.'));
   };
 
+  const handleChange = (e) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-black text-white">
       <form onSubmit={handleSubmit} className="flex flex-col gap-4 w-80">
         <h1 className="text-red-600 uppercase font-black text-xl">Admin Login</h1>
         {error && <p className="text-red-500 text-sm">{error}</p>}
         <input
+          name="username"
           placeholder="Username"
           value={form.username}
-          onChange={e => setForm({ ...form, username: e.target.value })}
+          onChange={handleChange}
           className="bg-black border border-neutral-800 p-3"
         />
         <input
+          name="password"
           type="password"
           placeholder="Password"
           value={form.password}
-          onChange={e => setForm({ ...form, password: e.target.value })}
+          onChange={handleChange}
           className="bg-black border border-neutral-800 p-3"
         />
         <button className="bg-white text-black font-bold uppercase p-3 hover:bg-red-600 hover:text-white transition-colors">
