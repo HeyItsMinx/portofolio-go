@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+import { Briefcase, LayoutGrid, Code2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { api } from '../../lib/api';
 import ImageModal from '@/components/media/ImageModal';
@@ -25,6 +26,16 @@ export default function PublicProjectDetail() {
       .catch(err => console.error("Fetch error:", err));
   }, [slug]);
 
+  useEffect(() => {
+    if (project) {
+      document.title = `Samuel R | ${project.title}`;
+    } else if (notFound) {
+      document.title = "Samuel R | Project Not Found";
+    } else {
+      document.title = "Samuel R | Loading Project..."; 
+    }
+  }, [project, notFound]);
+
   if (notFound) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-black text-white">
@@ -38,9 +49,9 @@ export default function PublicProjectDetail() {
   const coverSrc = project.cover_image_url ? `${imgBase}${project.cover_image_url}` : null;
 
   const facts = [
-    { label: 'Client', value: project.client_label },
-    { label: 'Category', value: project.category },
-    { label: 'Stack', value: `${project.tech_stack?.length || 0} Technologies` },
+    { label: 'Client', value: project.client_label, icon: Briefcase },
+    { label: 'Category', value: project.category, icon: LayoutGrid },
+    { label: 'Stack', value: `${project.tech_stack?.length || 0} Technologies`, icon: Code2 },
   ].filter(f => f.value);
 
   return (
@@ -76,9 +87,12 @@ export default function PublicProjectDetail() {
         {facts.length > 0 && (
           <div className="grid grid-cols-3 gap-4 border-y-2 border-neutral-800 py-6 mb-12">
             {facts.map(f => (
-              <div key={f.label}>
-                <p className="text-neutral-600 uppercase text-[10px] tracking-widest mb-1">{f.label}</p>
-                <p className="text-white font-bold text-sm md:text-base">{f.value}</p>
+              <div key={f.label} className="flex items-start gap-3">
+                <f.icon size={18} className="text-[var(--blood)] mt-0.5 shrink-0" />
+                <div>
+                  <p className="text-neutral-600 uppercase text-[10px] tracking-widest mb-1">{f.label}</p>
+                  <p className="text-white font-bold text-sm md:text-base">{f.value}</p>
+                </div>
               </div>
             ))}
           </div>

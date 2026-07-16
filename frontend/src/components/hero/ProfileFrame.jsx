@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import profilePic from '../../assets/profile.jfif';
+import profilePic from '../../assets/profile.jpg';
 
 export default function ProfileFrame() {
   return (

@@ -15,6 +15,10 @@ export default function Journey() {
       .catch(err => console.error("Fetch error:", err));
   }, []);
 
+  useEffect(() => {
+    document.title = "Samuel R | Journey";
+  }, []);
+
   const workMilestones = milestones.filter(m => ['Work', 'Education', 'Certification'].includes(m.milestone_type));
   const orgMilestones = milestones.filter(m => m.milestone_type === 'Organization');
   const activityMilestones = milestones.filter(m => m.milestone_type === 'Activity');

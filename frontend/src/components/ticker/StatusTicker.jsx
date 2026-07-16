@@ -1,7 +1,7 @@
 const STATUS_LINES = [
   'STATUS: Refactoring auth middleware',
   'LAST COMMIT: 2h ago',
-  'CURRENTLY BUILDING: Public portfolio v2',
+  'CURRENTLY BUILDING: Public Portofolio',
   'UPTIME: 100% containerized',
 ];
 

@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 import DotField from '@/components/hero/DotField';
 import GlitchText from '@/components/hero/GlitchText';
 import StatsStrip from '@/components/stats/StatsStrip';
@@ -10,6 +11,10 @@ import TechMarquee from '@/components/marquee/TechMarquee';
 import ProfileFrame from '@/components/hero/ProfileFrame';
 
 export default function Home() {
+  useEffect(() => {
+    document.title = "Samuel R | Home";
+  }, []);
+
   return (
     <>
       <section className="relative h-screen min-h-[600px] bg-black overflow-hidden flex flex-col justify-center">

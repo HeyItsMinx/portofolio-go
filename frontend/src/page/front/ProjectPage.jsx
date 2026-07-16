@@ -14,6 +14,10 @@ export default function ProjectsPage() {
       .catch(err => console.error("Fetch error:", err));
   }, []);
 
+  useEffect(() => {
+    document.title = "Samuel R | Project";
+  }, []);
+
   return (
     <>
       <BackgroundSection>

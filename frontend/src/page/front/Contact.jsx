@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { useEffect } from 'react';
 
 const CHANNELS = [
   { label: 'email', value: 'samuelrev04@gmail.com', href: 'mailto:samuelrev04@gmail.com' },
@@ -7,6 +8,11 @@ const CHANNELS = [
 ];
 
 export default function Contact() {
+
+  useEffect(() => {
+    document.title = "Samuel R | Contact";
+  }, []);
+
   return (
     <section className="min-h-[80vh] bg-black flex items-center px-8 py-24">
       <div className="max-w-3xl mx-auto w-full font-mono">

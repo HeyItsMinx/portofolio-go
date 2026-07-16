@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '@/lib/api';
 
@@ -6,6 +6,10 @@ export default function Login() {
   const [form, setForm] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.title = "Login Admin";
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
