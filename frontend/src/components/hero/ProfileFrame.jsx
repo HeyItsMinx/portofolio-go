@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import profilePic from '../../assets/profile.jpg';
+import profilePic from '../../assets/pas_foto.jpg';
 
 export default function ProfileFrame() {
   return (
