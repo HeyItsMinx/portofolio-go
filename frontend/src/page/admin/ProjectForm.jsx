@@ -5,6 +5,8 @@ import RichTextEditor from '@/components/editor/RichTextEditor';
 import ImageUpload from '@/components/editor/ImageUpload';
 import GalleryUpload from '@/components/editor/GalleryUpload';
 import MetricsEditor from '@/components/editor/MetricsEditor';
+import LinksEditor from '@/components/editor/LinksEditor';
+import { liftTarget } from '@tiptap/pm/transform';
 
 const TABS = ['Overview', 'Narrative', 'Tech & Meta'];
 
@@ -20,7 +22,7 @@ export default function ProjectForm() {
     slug: '', title: '', client_label: '', category: '', summary: '',
     description: '', cover_image_url: '', gallery_images: [],
     problem: '', my_role: '', key_decision: '', outcome: '',
-    tech_stack: '', is_featured: false, sort_order: 0, metrics: []
+    tech_stack: '', links: [], is_featured: false, sort_order: 0, metrics: []
   });
 
   useEffect(() => {
@@ -30,6 +32,9 @@ export default function ProjectForm() {
         tech_stack: existingProject.tech_stack ? existingProject.tech_stack.join(', ') : '',
         metrics: existingProject.metrics
           ? Object.entries(existingProject.metrics).map(([label, value], i) => ({ id: `m-${i}`, label, value }))
+          : [],
+        links: existingProject.links
+          ? existingProject.links.map((l, i) => ({ id: `l-${i}`, label: l.label, url: l.url, type: l.type || 'demo' }))
           : []
       });
     }
@@ -43,11 +48,16 @@ export default function ProjectForm() {
       return acc;
     }, {});
 
+    const linksArray = form.links
+      .filter(l => l.label.trim() && l.url.trim())
+      .map(l => ({ label: l.label.trim(), url: l.url.trim(), type: l.type }));
+
     const payload = {
       ...form,
       sort_order: parseInt(form.sort_order, 10),
       tech_stack: form.tech_stack.split(',').map(s => s.trim()).filter(Boolean),
       metrics: metricsObject,
+      links: linksArray,
       architecture: {}
     };
 
@@ -140,6 +150,7 @@ export default function ProjectForm() {
           <>
             <input name="tech_stack" placeholder="Tech Stack (Go, React, Redis)" value={form.tech_stack} onChange={handleChange} className={inputStyles} required />
             <MetricsEditor metrics={form.metrics} onChange={(metrics) => setForm(prev => ({ ...prev, metrics }))} />
+            <LinksEditor links={form.links} onChange={(links) => setForm(prev => ({ ...prev, links }))} />
             <div className="flex items-center gap-8">
               <label className="flex items-center gap-2 text-gray-400 uppercase text-xs tracking-widest cursor-pointer">
                 <input type="checkbox" name="is_featured" checked={form.is_featured} onChange={handleChange} className="w-4 h-4 accent-[var(--blood)]" />

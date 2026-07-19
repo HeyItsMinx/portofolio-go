@@ -22,6 +22,7 @@ type Project struct {
 	TechStack     []string        `json:"tech_stack"`
 	Metrics       json.RawMessage `json:"metrics"`
 	Architecture  json.RawMessage `json:"architecture"`
+	Links         json.RawMessage `json:"links"`
 	IsFeatured    bool            `json:"is_featured"`
 	SortOrder     int             `json:"sort_order"`
 	CreatedAt     time.Time       `json:"created_at"`

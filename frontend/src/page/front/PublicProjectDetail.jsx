@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Briefcase, LayoutGrid, Code2 } from 'lucide-react';
+import { Briefcase, LayoutGrid, Code2, ExternalLink, Github, Link2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { api } from '../../lib/api';
 import ImageModal from '@/components/media/ImageModal';
@@ -12,6 +12,7 @@ export default function PublicProjectDetail() {
   const [project, setProject] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [coverModalOpen, setCoverModalOpen] = useState(false);
+  const LINK_ICONS = { demo: ExternalLink, repo: Github, other: Link2 };
 
   const imgBase = import.meta.env.VITE_API_URL.replace('/api', '');
 
@@ -86,6 +87,27 @@ export default function PublicProjectDetail() {
           <h1 className="text-4xl md:text-5xl font-black uppercase tracking-wide mt-3">{project.title}</h1>
           {project.client_label && <p className="client-label mt-2">{project.client_label}</p>}
         </motion.div>
+
+        {project.links?.length > 0 && (
+          <div className="flex flex-wrap gap-3 mb-10">
+            {project.links.map((l) => {
+              const Icon = LINK_ICONS[l.type] || Link2;
+              return (
+                <a
+                  key={l.url}
+                  href={l.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 border-2 border-neutral-800 hover:border-[var(--blood)] text-white hover:text-[var(--blood)] uppercase text-xs font-bold tracking-widest px-4 py-2.5 transition-colors duration-150"
+                  style={{ clipPath: 'polygon(8px 0, 100% 0, 100% 100%, 0 100%, 0 8px)' }}
+                >
+                  <Icon size={14} />
+                  {l.label}
+                </a>
+              );
+            })}
+          </div>
+        )}
 
         {facts.length > 0 && (
           <div className="grid grid-cols-3 gap-4 border-y-2 border-neutral-800 py-6 mb-10">

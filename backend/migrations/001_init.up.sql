@@ -21,6 +21,8 @@ CREATE TABLE IF NOT EXISTS projects (
     metrics JSONB NOT NULL DEFAULT '{}',
     architecture JSONB NOT NULL DEFAULT '{}',
 
+    links JSONB NOT NULL DEFAULT '{}',
+
     is_featured BOOLEAN NOT NULL DEFAULT false,
     sort_order INT NOT NULL DEFAULT 0,
 
@@ -42,6 +44,7 @@ CREATE TABLE milestones (
     organization TEXT NOT NULL DEFAULT '',
     milestone_type TEXT NOT NULL DEFAULT 'Work',
     gallery_images TEXT[] NOT NULL DEFAULT '{}',
+    links JSONB NOT NULL DEFAULT '{}',
     description TEXT NOT NULL DEFAULT '',
     date_label TEXT NOT NULL DEFAULT '',
     sort_order INT NOT NULL DEFAULT 0,

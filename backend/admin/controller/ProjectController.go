@@ -18,8 +18,8 @@ import (
 func GetProjects(w http.ResponseWriter, r *http.Request) {
 	query := `
 		SELECT id, slug, title, client_label, category, summary, description, cover_image_url, gallery_images,
-		       problem, my_role, key_decision, outcome, tech_stack, 
-		       metrics, architecture, is_featured, sort_order, created_at, updated_at 
+		       problem, my_role, key_decision, outcome, tech_stack, links,
+		       metrics, architecture, links, is_featured, sort_order, created_at, updated_at 
 		FROM projects ORDER BY sort_order ASC, created_at DESC`
 
 	rows, err := admin.DB.Query(query)
@@ -34,7 +34,7 @@ func GetProjects(w http.ResponseWriter, r *http.Request) {
 		var p model.Project
 		err := rows.Scan(
 			&p.ID, &p.Slug, &p.Title, &p.ClientLabel, &p.Category, &p.Summary, &p.Description, &p.CoverImageUrl, pq.Array(&p.GalleryImages),
-			&p.Problem, &p.MyRole, &p.KeyDecision, &p.Outcome, pq.Array(&p.TechStack),
+			&p.Problem, &p.MyRole, &p.KeyDecision, &p.Outcome, &p.Links, pq.Array(&p.TechStack),
 			&p.Metrics, &p.Architecture, &p.IsFeatured, &p.SortOrder, &p.CreatedAt, &p.UpdatedAt,
 		)
 		if err != nil {
@@ -54,13 +54,13 @@ func GetProjectBySlug(w http.ResponseWriter, r *http.Request) {
 	query := `
 		SELECT id, slug, title, client_label, category, summary, description, cover_image_url, gallery_images,
 		       problem, my_role, key_decision, outcome, tech_stack, 
-		       metrics, architecture, is_featured, sort_order, created_at, updated_at 
+		       metrics, architecture, links, is_featured, sort_order, created_at, updated_at 
 		FROM projects WHERE slug = $1`
 
 	var p model.Project
 	err := admin.DB.QueryRow(query, slug).Scan(
 		&p.ID, &p.Slug, &p.Title, &p.ClientLabel, &p.Category, &p.Summary, &p.Description, &p.CoverImageUrl, pq.Array(&p.GalleryImages),
-		&p.Problem, &p.MyRole, &p.KeyDecision, &p.Outcome, pq.Array(&p.TechStack),
+		&p.Problem, &p.MyRole, &p.KeyDecision, &p.Outcome, &p.Links, pq.Array(&p.TechStack),
 		&p.Metrics, &p.Architecture, &p.IsFeatured, &p.SortOrder, &p.CreatedAt, &p.UpdatedAt,
 	)
 
@@ -93,9 +93,9 @@ func CreateProject(w http.ResponseWriter, r *http.Request) {
 		INSERT INTO projects (
 			slug, title, client_label, category, summary, description, cover_image_url, gallery_images,
 			problem, my_role, key_decision, outcome, tech_stack, 
-			metrics, architecture, is_featured, sort_order
+			metrics, architecture, links, is_featured, sort_order
 		) VALUES (
-			$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17
+			$1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18
 		) RETURNING id, created_at, updated_at`
 
 	err := admin.DB.QueryRow(
@@ -134,8 +134,8 @@ func UpdateProject(w http.ResponseWriter, r *http.Request) {
 		UPDATE projects SET 
 			slug = $1, title = $2, client_label = $3, category = $4, summary = $5, description = $6, cover_image_url = $7, gallery_images = $8,
 			problem = $9, my_role = $10, key_decision = $11, outcome = $12, 
-			tech_stack = $13, metrics = $14, architecture = $15, 
-			is_featured = $16, sort_order = $17, updated_at = now()
+			tech_stack = $13, metrics = $14, architecture = $15, links = $16, 
+			is_featured = $17, sort_order = $18, updated_at = now()
 		WHERE id = $18`
 
 	result, err := admin.DB.Exec(
