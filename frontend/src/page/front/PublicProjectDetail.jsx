@@ -32,7 +32,7 @@ export default function PublicProjectDetail() {
     } else if (notFound) {
       document.title = "Samuel R | Project Not Found";
     } else {
-      document.title = "Samuel R | Loading Project..."; 
+      document.title = "Samuel R | Loading Project...";
     }
   }, [project, notFound]);
 
@@ -47,24 +47,27 @@ export default function PublicProjectDetail() {
   if (!project) return null;
 
   const coverSrc = project.cover_image_url ? `${imgBase}${project.cover_image_url}` : null;
+  const hasMetrics = project.metrics && Object.keys(project.metrics).length > 0;
 
   const facts = [
     { label: 'Client', value: project.client_label, icon: Briefcase },
-    { label: 'Category', value: project.category, icon: LayoutGrid },
+    { label: 'Domain', value: project.category, icon: LayoutGrid },
     { label: 'Stack', value: `${project.tech_stack?.length || 0} Technologies`, icon: Code2 },
   ].filter(f => f.value);
 
   return (
     <div className="min-h-screen bg-black text-white">
       {coverSrc && (
-        <div className="relative h-[50vh] min-h-[360px] overflow-hidden">
+        <div className="relative h-[38vh] max-h-[420px] min-h-[280px] overflow-hidden">
           <img
             src={coverSrc}
             onClick={() => setCoverModalOpen(true)}
             alt={project.title}
-            className="w-full h-full object-cover cursor-zoom-in"
+            className="w-full h-full object-cover object-center cursor-zoom-in"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+          {/* Softens upscale artifacts on lower-resolution source images */}
+          <div className="absolute inset-0 bg-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/40" />
           <div
             className="absolute bottom-0 left-0 right-0 h-16 bg-black"
             style={{ clipPath: 'polygon(0 100%, 100% 40%, 100% 100%)' }}
@@ -78,14 +81,14 @@ export default function PublicProjectDetail() {
           &larr; Back to Archive
         </Link>
 
-        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="mt-6 mb-8">
+        <motion.div initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }} className="mt-6 mb-10">
           <span className="category-tag">{project.category}</span>
           <h1 className="text-4xl md:text-5xl font-black uppercase tracking-wide mt-3">{project.title}</h1>
           {project.client_label && <p className="client-label mt-2">{project.client_label}</p>}
         </motion.div>
 
         {facts.length > 0 && (
-          <div className="grid grid-cols-3 gap-4 border-y-2 border-neutral-800 py-6 mb-12">
+          <div className="grid grid-cols-3 gap-4 border-y-2 border-neutral-800 py-6 mb-10">
             {facts.map(f => (
               <div key={f.label} className="flex items-start gap-3">
                 <f.icon size={18} className="text-[var(--blood)] mt-0.5 shrink-0" />
@@ -98,7 +101,18 @@ export default function PublicProjectDetail() {
           </div>
         )}
 
-        <p className="text-xl text-gray-300 leading-relaxed mb-12">{project.summary}</p>
+        {hasMetrics && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
+            {Object.entries(project.metrics).map(([label, value]) => (
+              <div key={label}>
+                <p className="text-[var(--blood)] text-3xl md:text-4xl font-black leading-none">{value}</p>
+                <p className="text-gray-500 uppercase text-[10px] tracking-widest mt-2">{label}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <p className="text-xl text-gray-300 leading-relaxed mb-14">{project.summary}</p>
 
         {project.description && (
           <div
@@ -118,9 +132,23 @@ export default function PublicProjectDetail() {
 
         <GallerySection images={project.gallery_images} imgBase={imgBase} />
 
-        <div className="tech-pills mt-16 mb-16">
-          {project.tech_stack?.map(t => <span key={t} className="pill">{t}</span>)}
-        </div>
+        {project.tech_stack?.length > 0 && (
+          <div className="mt-16 mb-16 font-mono">
+            <p className="text-gray-500 text-sm mb-4">
+              <span className="text-[var(--blood)]">$</span> tech --stack
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {project.tech_stack.map(t => (
+                <span
+                  key={t}
+                  className="text-xs uppercase tracking-wide text-white bg-neutral-950 border border-neutral-700 hover:border-[var(--blood)] transition-colors duration-150 px-3 py-1.5"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

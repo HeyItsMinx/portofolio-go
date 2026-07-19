@@ -8,18 +8,15 @@ export default function BentoCard({ project, featured = false }) {
   const coverSrc = project.cover_image_url ? `${imgBase}${project.cover_image_url}` : null;
 
   return (
-    <motion.div
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.15, ease: 'easeOut' }}
-      className={featured ? 'md:col-span-2 md:row-span-2' : ''}
-    >
+    <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.15, ease: 'easeOut' }} className="h-full">
       <SpotlightCard className="h-full">
         <Link
           to={`/project/${project.slug}`}
-          className="group flex flex-col h-full bg-black border-2 border-neutral-800 hover:border-[var(--blood)] transition-colors duration-150 clip-corner-cut relative overflow-hidden"
+          className={`group flex flex-col h-full bg-black border-2 transition-colors duration-150 clip-corner-cut relative overflow-hidden ${
+            featured ? 'border-[var(--blood)]/60 hover:border-[var(--blood)]' : 'border-neutral-800 hover:border-[var(--blood)]'
+          }`}
         >
-          {/* Cover image */}
-          <div className={`relative overflow-hidden shrink-0 ${featured ? 'h-64 md:h-80' : 'h-40'}`}>
+          <div className="relative aspect-[16/10] overflow-hidden shrink-0">
             {coverSrc ? (
               <img
                 src={coverSrc}
@@ -34,37 +31,31 @@ export default function BentoCard({ project, featured = false }) {
                 </span>
               </div>
             )}
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/10 to-transparent" />
 
             <span className="absolute top-3 left-3 text-[10px] uppercase tracking-widest bg-black/80 backdrop-blur-sm text-gray-300 px-3 py-1 border border-neutral-700">
               {project.category}
             </span>
-            {project.is_featured && (
+            {featured && (
               <span className="absolute top-3 right-3 text-[10px] uppercase tracking-widest bg-[var(--blood)] text-black px-3 py-1 font-black">
                 Featured
               </span>
             )}
           </div>
 
-          <div className="p-6 flex flex-col flex-1">
-            <h3 className={`font-black uppercase text-white leading-tight mb-2 ${featured ? 'text-3xl' : 'text-xl'}`}>
+          <div className="p-5 flex flex-col flex-1">
+            <h3 className="font-black uppercase text-white leading-tight text-lg mb-1 line-clamp-2">
               {project.title}
             </h3>
-
             <p className="text-[var(--blood)] font-bold uppercase text-xs tracking-wider mb-3">
               {project.client_label}
             </p>
-
-            <p className="text-gray-400 text-sm leading-relaxed flex-1 line-clamp-3">
+            <p className="text-gray-400 text-sm leading-relaxed line-clamp-2 mb-4">
               {project.summary}
             </p>
-
-            <div className="flex flex-wrap gap-2 mt-4">
-              {project.tech_stack?.slice(0, featured ? 6 : 3).map(t => (
-                <span
-                  key={t}
-                  className="text-[10px] uppercase tracking-wide bg-neutral-900 text-gray-300 px-2 py-1 border border-neutral-800 group-hover:border-red-900/50 transition-colors duration-150"
-                >
+            <div className="flex flex-wrap gap-1.5 mt-auto pt-3 border-t border-neutral-900">
+              {project.tech_stack?.slice(0, 3).map(t => (
+                <span key={t} className="text-[10px] uppercase tracking-wide bg-neutral-900 text-gray-300 px-2 py-1 border border-neutral-800 group-hover:border-red-900/50 transition-colors duration-150">
                   {t}
                 </span>
               ))}

@@ -1,12 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { api } from '../../lib/api';
 import BackgroundSection from '@/components/hero/BackgroundSection';
 import Hero from '@/components/hero/Hero';
 import CrossMarquee from '@/components/marquee/CrossMarquee';
 import BentoGrid from '@/components/bento/BentoGrid';
+import CategoryFilter from '@/components/bento/CategoryFilter';
 
 export default function ProjectsPage() {
   const [projects, setProjects] = useState([]);
+  const [activeCategory, setActiveCategory] = useState('All');
 
   useEffect(() => {
     api.GetProjects()
@@ -17,6 +19,16 @@ export default function ProjectsPage() {
   useEffect(() => {
     document.title = "Samuel R | Project";
   }, []);
+
+  const categories = useMemo(
+    () => [...new Set(projects.map(p => p.category).filter(Boolean))].sort(),
+    [projects]
+  );
+
+  const filteredProjects = useMemo(
+    () => activeCategory === 'All' ? projects : projects.filter(p => p.category === activeCategory),
+    [projects, activeCategory]
+  );
 
   return (
     <>
@@ -30,7 +42,14 @@ export default function ProjectsPage() {
 
       <div id="vault" className="p-8 bg-black">
         <main className="max-w-7xl mx-auto">
-          <BentoGrid projects={projects} />
+          {categories.length > 1 && (
+            <CategoryFilter
+              categories={categories}
+              active={activeCategory}
+              onChange={setActiveCategory}
+            />
+          )}
+          <BentoGrid projects={filteredProjects} />
         </main>
       </div>
     </>

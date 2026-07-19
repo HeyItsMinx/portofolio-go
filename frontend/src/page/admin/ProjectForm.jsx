@@ -4,6 +4,7 @@ import { api } from '../../lib/api';
 import RichTextEditor from '@/components/editor/RichTextEditor';
 import ImageUpload from '@/components/editor/ImageUpload';
 import GalleryUpload from '@/components/editor/GalleryUpload';
+import MetricsEditor from '@/components/editor/MetricsEditor';
 
 const TABS = ['Overview', 'Narrative', 'Tech & Meta'];
 
@@ -13,29 +14,40 @@ export default function ProjectForm() {
   const existingProject = location.state?.project;
   const [activeTab, setActiveTab] = useState('Overview');
 
+  const DOMAINS = ['ERP', 'E-Commerce', 'HR', 'Financial Reporting', 'Business Portofolio', 'Others'];
+
   const [form, setForm] = useState({
     slug: '', title: '', client_label: '', category: '', summary: '',
     description: '', cover_image_url: '', gallery_images: [],
     problem: '', my_role: '', key_decision: '', outcome: '',
-    tech_stack: '', is_featured: false, sort_order: 0
+    tech_stack: '', is_featured: false, sort_order: 0, metrics: []
   });
 
   useEffect(() => {
     if (existingProject) {
       setForm({
         ...existingProject,
-        tech_stack: existingProject.tech_stack ? existingProject.tech_stack.join(', ') : ''
+        tech_stack: existingProject.tech_stack ? existingProject.tech_stack.join(', ') : '',
+        metrics: existingProject.metrics
+          ? Object.entries(existingProject.metrics).map(([label, value], i) => ({ id: `m-${i}`, label, value }))
+          : []
       });
     }
   }, [existingProject]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const metricsObject = form.metrics.reduce((acc, m) => {
+      if (m.label.trim() && m.value.trim()) acc[m.label.trim()] = m.value.trim();
+      return acc;
+    }, {});
+
     const payload = {
       ...form,
       sort_order: parseInt(form.sort_order, 10),
       tech_stack: form.tech_stack.split(',').map(s => s.trim()).filter(Boolean),
-      metrics: {},
+      metrics: metricsObject,
       architecture: {}
     };
 
@@ -91,7 +103,10 @@ export default function ProjectForm() {
             </div>
             <div className="flex gap-4">
               <input name="client_label" placeholder="Client Label" value={form.client_label} onChange={handleChange} className={inputStyles} required />
-              <input name="category" placeholder="Category" value={form.category} onChange={handleChange} className={inputStyles} required />
+              <select name="category" value={form.category} onChange={handleChange} className={inputStyles} required>
+                <option value="" disabled>Select Domain</option>
+                {DOMAINS.map(d => <option key={d} value={d}>{d}</option>)}
+              </select>
             </div>
             <textarea name="summary" placeholder="Executive Summary (card teaser)" value={form.summary} onChange={handleChange} className={`${inputStyles} min-h-[100px]`} />
             <ImageUpload value={form.cover_image_url} onChange={(url) => setForm(prev => ({ ...prev, cover_image_url: url }))} />
@@ -124,6 +139,7 @@ export default function ProjectForm() {
         {activeTab === 'Tech & Meta' && (
           <>
             <input name="tech_stack" placeholder="Tech Stack (Go, React, Redis)" value={form.tech_stack} onChange={handleChange} className={inputStyles} required />
+            <MetricsEditor metrics={form.metrics} onChange={(metrics) => setForm(prev => ({ ...prev, metrics }))} />
             <div className="flex items-center gap-8">
               <label className="flex items-center gap-2 text-gray-400 uppercase text-xs tracking-widest cursor-pointer">
                 <input type="checkbox" name="is_featured" checked={form.is_featured} onChange={handleChange} className="w-4 h-4 accent-[var(--blood)]" />
