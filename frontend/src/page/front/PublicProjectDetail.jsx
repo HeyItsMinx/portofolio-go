@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Briefcase, LayoutGrid, Code2, ExternalLink, Github, Link2 } from 'lucide-react';
+import { Briefcase, LayoutGrid, Code2, ExternalLink, GitBranch, Link2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { api } from '../../lib/api';
 import ImageModal from '@/components/media/ImageModal';
@@ -12,7 +12,7 @@ export default function PublicProjectDetail() {
   const [project, setProject] = useState(null);
   const [notFound, setNotFound] = useState(false);
   const [coverModalOpen, setCoverModalOpen] = useState(false);
-  const LINK_ICONS = { demo: ExternalLink, repo: Github, other: Link2 };
+  const LINK_ICONS = { demo: ExternalLink, repo: GitBranch, other: Link2 };
 
   const imgBase = import.meta.env.VITE_API_URL.replace('/api', '');
 
