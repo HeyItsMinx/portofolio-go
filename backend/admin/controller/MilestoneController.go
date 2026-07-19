@@ -24,7 +24,7 @@ func GetMilestones(w http.ResponseWriter, r *http.Request) {
 	milestones := []model.Milestone{}
 	for rows.Next() {
 		var m model.Milestone
-		err := rows.Scan(&m.ID, &m.Title, &m.Organization, &m.MilestoneType, &m.Description, &m.DateLabel, pq.Array(&m.GalleryImages), &m.SortOrder, &m.CreatedAt, &m.UpdatedAt)
+		err := rows.Scan(&m.ID, &m.Title, &m.Organization, &m.MilestoneType, &m.Description, &m.DateLabel, pq.Array(&m.GalleryImages), &m.Links, &m.SortOrder, &m.CreatedAt, &m.UpdatedAt)
 		if err != nil {
 			log.Println("Row scan error:", err)
 			continue
@@ -53,7 +53,7 @@ func CreateMilestone(w http.ResponseWriter, r *http.Request) {
 	query := `INSERT INTO milestones (title, organization, milestone_type, description, date_label, gallery_images, links, sort_order)
 	          VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, created_at, updated_at`
 
-	err := admin.DB.QueryRow(query, m.Title, m.Organization, m.MilestoneType, m.Description, m.DateLabel, pq.Array(m.GalleryImages), m.SortOrder).
+	err := admin.DB.QueryRow(query, m.Title, m.Organization, m.MilestoneType, m.Description, m.DateLabel, pq.Array(m.GalleryImages), m.Links, m.SortOrder).
 		Scan(&m.ID, &m.CreatedAt, &m.UpdatedAt)
 
 	if err != nil {
@@ -86,7 +86,7 @@ func UpdateMilestone(w http.ResponseWriter, r *http.Request) {
 	query := `UPDATE milestones SET title = $1, organization = $2, milestone_type = $3, 
 	          description = $4, date_label = $5, gallery_images = $6, links = $7, sort_order = $8, updated_at = now() WHERE id = $9`
 
-	result, err := admin.DB.Exec(query, m.Title, m.Organization, m.MilestoneType, m.Description, m.DateLabel, pq.Array(m.GalleryImages), m.SortOrder, id)
+	result, err := admin.DB.Exec(query, m.Title, m.Organization, m.MilestoneType, m.Description, m.DateLabel, pq.Array(m.GalleryImages), m.Links, m.SortOrder, id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return

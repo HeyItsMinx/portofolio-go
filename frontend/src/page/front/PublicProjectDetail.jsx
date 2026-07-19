@@ -66,13 +66,7 @@ export default function PublicProjectDetail() {
             alt={project.title}
             className="w-full h-full object-cover object-center cursor-zoom-in"
           />
-          {/* Softens upscale artifacts on lower-resolution source images */}
-          <div className="absolute inset-0 bg-black/10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-black/40" />
-          <div
-            className="absolute bottom-0 left-0 right-0 h-16 bg-black"
-            style={{ clipPath: 'polygon(0 100%, 100% 40%, 100% 100%)' }}
-          />
+          <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-black via-black/60 to-transparent pointer-events-none" />
           <ImageModal src={coverSrc} alt={project.title} open={coverModalOpen} onOpenChange={setCoverModalOpen} />
         </div>
       )}
