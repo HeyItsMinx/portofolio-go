@@ -50,6 +50,10 @@ func CreateMilestone(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(m.Links) == 0 || string(m.Links) == "null" {
+		m.Links = json.RawMessage("[]")
+	}
+
 	query := `INSERT INTO milestones (title, organization, milestone_type, description, date_label, gallery_images, links, sort_order)
 	          VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id, created_at, updated_at`
 
@@ -81,6 +85,10 @@ func UpdateMilestone(w http.ResponseWriter, r *http.Request) {
 	if m.Title == "" || m.MilestoneType == "" {
 		http.Error(w, "Missing required fields: title, milestone_type", http.StatusBadRequest)
 		return
+	}
+
+	if len(m.Links) == 0 || string(m.Links) == "null" {
+		m.Links = json.RawMessage("[]")
 	}
 
 	query := `UPDATE milestones SET title = $1, organization = $2, milestone_type = $3, 

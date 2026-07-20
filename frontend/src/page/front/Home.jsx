@@ -34,7 +34,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4, delay: 0.1 }}
-            className="text-white text-6xl md:text-9xl font-black uppercase tracking-tight leading-[0.95]"
+            className="text-white text-6xl md:text-8xl font-black uppercase tracking-tight leading-[0.95]"
           >
             <GlitchText text="Samuel Revaldo T" />
           </motion.h1>
