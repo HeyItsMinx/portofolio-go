@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -7,6 +7,12 @@ export default function ImageModal({ src, alt, images, currentIndex, open, onOpe
   const isGallery = Array.isArray(images);
   const activeSrc = isGallery ? images[currentIndex] : src;
   const hasMultiple = isGallery && images.length > 1;
+
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(false);
+  }, [activeSrc]);
 
   useEffect(() => {
     if (!open) return;
@@ -73,14 +79,33 @@ export default function ImageModal({ src, alt, images, currentIndex, open, onOpe
               exit={{ opacity: 0, scale: 0.92 }}
               transition={{ duration: 0.2, ease: 'easeOut' }}
               onClick={(e) => e.stopPropagation()}
-              className="relative min-w-0 border-2 border-[var(--blood)]"
+              className="relative min-w-[220px] min-h-[220px] flex items-center justify-center border-2 border-[var(--blood)]"
             >
+              {!isLoaded && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-neutral-950 font-mono">
+                  <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+                    className="w-6 h-6 border-2 border-neutral-700 border-t-[var(--blood)]"
+                  />
+                  <span className="text-[var(--blood)] text-[10px] uppercase tracking-widest animate-pulse">
+                    Loading_Image...
+                  </span>
+                </div>
+              )}
+
               <img
                 src={activeSrc}
                 alt={alt || `Image ${currentIndex + 1}`}
-                className="block max-w-[75vw] md:max-w-[70vw] max-h-[calc(100vh-8rem)] w-auto h-auto object-contain"
+                onLoad={() => setIsLoaded(true)}
+                className={`block max-w-[75vw] md:max-w-[70vw] max-h-[calc(100vh-8rem)] w-auto h-auto object-contain transition-opacity duration-200 ${
+                  isLoaded ? 'opacity-100' : 'opacity-0'
+                }`}
               />
-              <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-[var(--blood)]" style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }} />
+
+              {isLoaded && (
+                <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-[var(--blood)]" style={{ clipPath: 'polygon(100% 0, 0 0, 100% 100%)' }} />
+              )}
             </motion.div>
 
             {hasMultiple && (
