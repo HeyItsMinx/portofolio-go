@@ -118,13 +118,31 @@ export default function PublicProjectDetail() {
         )}
 
         {hasMetrics && (
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-10">
-            {Object.entries(project.metrics).map(([label, value]) => (
-              <div key={label}>
-                <p className="text-[var(--blood)] text-3xl md:text-4xl font-black leading-none">{value}</p>
-                <p className="text-gray-500 uppercase text-[10px] tracking-widest mt-2">{label}</p>
-              </div>
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
+            {Object.entries(project.metrics)
+              .slice(0, 3)
+              .map(([label, value]) => {
+                const text = String(value);
+                const sizeClass =
+                  text.length > 14
+                    ? 'text-lg md:text-xl'
+                    : text.length > 8
+                    ? 'text-2xl md:text-3xl'
+                    : 'text-3xl md:text-4xl';
+
+                return (
+                  <div key={label} className="min-w-0">
+                    <p
+                      className={`text-[var(--blood)] font-black leading-tight break-words ${sizeClass}`}
+                    >
+                      {text}
+                    </p>
+                    <p className="text-gray-500 uppercase text-[10px] tracking-widest mt-2 truncate">
+                      {label}
+                    </p>
+                  </div>
+                );
+              })}
           </div>
         )}
 

@@ -3,16 +3,16 @@ import ScrambleText from '../text/ScrambleText';
 
 const PILLARS = [
   {
-    title: 'Backend & Systems',
-    desc: 'Go, PostgreSQL, JSONB-driven schemas, containerized services built to hold under real load.',
+    title: 'Enterprise Architecture',
+    desc: 'Architecting multi-tenant ERPs, HRIS, and custom CRMs. PostgreSQL, modular workflows, and heavy data pipelines built to run entire businesses.',
   },
   {
-    title: 'Frontend Engineering',
-    desc: 'React, Vite, kinetic interfaces that reject soft defaults in favor of deliberate, high-contrast design.',
+    title: 'Frontend & Portals',
+    desc: 'React and state-heavy ecosystems. From data-dense financial dashboards to custom conversational commerce pipelines, built for velocity and absolute control.',
   },
   {
-    title: 'Cross-Platform Builds',
-    desc: 'Jetpack Compose, Godot, raw sensor integration — mobile and interactive systems from the ground up.',
+    title: 'Real-Time Systems',
+    desc: 'Kotlin, Godot, bare-metal UDP networking, and embedded ONNX machine learning. Bridging raw hardware sensors with zero-latency interactive environments.',
   },
 ];
 
