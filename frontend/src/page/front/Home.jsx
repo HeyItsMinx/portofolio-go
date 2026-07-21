@@ -5,7 +5,7 @@ import DotField from '@/components/hero/DotField';
 import GlitchText from '@/components/hero/GlitchText';
 import StatsStrip from '@/components/stats/StatsStrip';
 import WhatIDo from '@/components/whatido/WhatIDo';
-import FeaturedTeaser from '@/components/featured/FeaturedTeaser';
+import FeaturedGrid from '@/components/featured/FeaturedGrid';
 import Narrative from '@/components/narrative/Narrative';
 import TechMarquee from '@/components/marquee/TechMarquee';
 import ProfileFrame from '@/components/hero/ProfileFrame';
@@ -68,7 +68,7 @@ export default function Home() {
 
       <StatsStrip />
       <WhatIDo />
-      <FeaturedTeaser />
+      <FeaturedGrid />
       <Narrative />
       <TechMarquee />
     </>
