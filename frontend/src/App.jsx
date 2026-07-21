@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import BootSequence from './components/boot/BootSequence';
 import Cursor from './components/cursor/Cursor';
 import ProtectedRoute from "./page/ProtectedRoute";
+import NotFound from './page/front/NotFound';
 
 // Public Router
 import Home from './page/front/Home';
@@ -52,6 +53,7 @@ function App() {
             <Route path="milestones" element={<MilestoneList />} />
             <Route path="milestones/new" element={<MilestoneForm />} />
           </Route>
+          <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
         </Routes>
       </BrowserRouter>
     </>
