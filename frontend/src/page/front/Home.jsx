@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { useEffect } from 'react';
 import DotField from '@/components/hero/DotField';
 import GlitchText from '@/components/hero/GlitchText';
-import StatsStrip from '@/components/stats/StatsStrip';
 import WhatIDo from '@/components/whatido/WhatIDo';
 import FeaturedGrid from '@/components/featured/FeaturedGrid';
 import Narrative from '@/components/narrative/Narrative';
@@ -45,7 +44,7 @@ export default function Home() {
             transition={{ duration: 0.4, delay: 0.3 }}
             className="text-gray-400 text-lg md:text-xl mt-8 max-w-2xl mx-auto"
           >
-            Tryin' to gettin' things done.
+            You bring the business logic. I build the engine.
           </motion.p>
 
           <motion.div
@@ -66,7 +65,6 @@ export default function Home() {
         <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-b from-transparent to-black pointer-events-none z-20" />
       </section>
 
-      <StatsStrip />
       <WhatIDo />
       <FeaturedGrid />
       <Narrative />

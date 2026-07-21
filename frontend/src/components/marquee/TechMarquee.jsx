@@ -1,4 +1,12 @@
-const TECH = ['Go 1.26', 'PostgreSQL', 'React + Vite', 'Laravel', 'Jetpack Compose', 'Docker', 'Godot'];
+const TECH = [
+  'Python', 'C', 'C#', 'C++', 'HTML & CSS', 'JavaScript', 'TypeScript', 'PHP', 'Go',
+  'MySQL', 'SQLite', 'PostgreSQL', 'MongoDB', 'Redis', 'Elasticsearch',
+  'React.js', 'Vue.js', 'Next.js', 'Express.js', 'Node.js', 'Laravel', 'Gin', 
+  'Kotlin', 'Jetpack Compose', 'Tailwind CSS', 'Bootstrap', 'Material UI', 'Sass',
+  'TensorFlow', 'Keras', 'Scipy', 'Seaborn', 'Streamlit', 'Pandas', 'Numpy', 'Matplotlib', 'SKLearn',
+  'AWS', 'Google Cloud', 'Docker', 'Kubernetes', 'GitHub Actions', 'Kafka', 'Linux',
+  'Git', 'Postman', 'Open API', 'Godot Engine'
+];
 
 export default function TechMarquee() {
   const looped = [...TECH, ...TECH];

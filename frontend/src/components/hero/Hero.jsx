@@ -3,7 +3,7 @@ import GlitchText from './GlitchText';
 
 export default function Hero() {
   return (
-    <section className="h-[65vh] min-h-[500px] flex flex-col justify-center max-w-7xl mx-auto px-8">
+    <section className="h-[65vh] min-h-[400px] flex flex-col justify-center max-w-7xl mx-auto px-8">
       <motion.p
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}

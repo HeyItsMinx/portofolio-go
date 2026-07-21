@@ -6,9 +6,7 @@ export default function Narrative() {
           The Narrative
         </p>
         <p className="text-white text-3xl md:text-4xl font-bold leading-snug">
-          I build robust, containerized systems using strict, step-by-step engineering.
-          Managing a backlog of <span className="text-[var(--blood)]">23+ enterprise B2B applications</span> demands
-          absolute ownership over the architecture, from the database schema to the frontend interface.
+          I build scalable, production-ready systems from start to finish. I’ve worked on <span className="text-[var(--blood)]">23+ enterprise B2B apps</span>, handling everything from database design to frontend interfaces.
         </p>
       </div>
     </section>
