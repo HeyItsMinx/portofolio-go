@@ -3,6 +3,11 @@ import Sidebar from './Sidebar';
 import SessionWarning from '@/components/admin/SessionWarning';
 
 export default function AdminLayout() {
+
+    useEffect(() => {
+        document.title = "ADMIN | Backdoor";
+    }, []);
+
     return (
         <div className="flex min-h-screen bg-black">
             <Sidebar />

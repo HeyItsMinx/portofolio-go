@@ -11,6 +11,10 @@ export default function AdminHome() {
       .catch(() => setCount(0));
   }, []);
 
+  useEffect(() => {
+    document.title = "Admin | Home";
+  }, []);
+
   return (
     <div className="p-8">
       <h1 className="text-white text-3xl font-black uppercase tracking-wide mb-8">

@@ -4,12 +4,14 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Button } from "@/components/ui/button";
 import ImageModal from '@/components/media/ImageModal';
 import { api } from '../../lib/api';
+import { useNotification } from '@/components/context/NotificationContext';
 
 export default function ProjectList() {
   const [projects, setProjects] = useState([]);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, id: null, title: '' });
   const [modalImage, setModalImage] = useState(null);
   const navigate = useNavigate();
+  const { notify } = useNotification();
 
   const fetchProjects = () => {
     api.GetProjects()
@@ -22,10 +24,14 @@ export default function ProjectList() {
   const confirmDelete = () => {
     api.DeleteProject(deleteModal.id, navigate)
       .then(() => {
+        notify(`"${deleteModal.title}" purged`, { type: 'delete' });
         setDeleteModal({ isOpen: false, id: null, title: '' });
         fetchProjects();
       })
-      .catch(err => console.error("Delete error:", err));
+      .catch(err => {
+        console.error("Delete error:", err);
+        notify(`Failed to purge "${deleteModal.title}"`, { type: 'error' });
+      });
   };
 
   const imgBase = import.meta.env.VITE_API_URL.replace('/api', '');

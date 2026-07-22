@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import BootSequence from './components/boot/BootSequence';
 import Cursor from './components/cursor/Cursor';
 import ProtectedRoute from "./page/ProtectedRoute";
+import { NotificationProvider } from './components/context/NotificationContext';
 import NotFound from './page/front/NotFound';
 
 // Public Router
@@ -31,7 +32,7 @@ function App() {
   };
 
   return (
-    <>
+    <NotificationProvider>
       { !booted && <BootSequence onComplete={handleBootComplete} />}
       <Cursor />
       <BrowserRouter>
@@ -56,7 +57,7 @@ function App() {
           <Route path="*" element={<PublicLayout><NotFound /></PublicLayout>} />
         </Routes>
       </BrowserRouter>
-    </>
+    </NotificationProvider>
   );
 }
 

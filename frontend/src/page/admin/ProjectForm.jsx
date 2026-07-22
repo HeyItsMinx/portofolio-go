@@ -7,11 +7,13 @@ import GalleryUpload from '@/components/editor/GalleryUpload';
 import MetricsEditor from '@/components/editor/MetricsEditor';
 import LinksEditor from '@/components/editor/LinksEditor';
 import { liftTarget } from '@tiptap/pm/transform';
+import { useNotification } from '@/components/context/NotificationContext';
 
 const TABS = ['Overview', 'Narrative', 'Tech & Meta'];
 
 export default function ProjectForm() {
   const navigate = useNavigate();
+  const { notify } = useNotification();
   const location = useLocation();
   const existingProject = location.state?.project;
   const [activeTab, setActiveTab] = useState('Overview');
@@ -65,7 +67,15 @@ export default function ProjectForm() {
       ? api.UpdateProject(existingProject.id, payload, navigate)
       : api.CreateProject(payload, navigate);
 
-    call.then(() => navigate('/admin/projects')).catch(err => console.error("Submit error:", err));
+    call
+      .then(() => {
+        notify(`"${form.title}" ${existingProject ? 'updated' : 'created'}`);
+        navigate('/admin/projects');
+      })
+      .catch(err => {
+        console.error("Submit error:", err);
+        notify(`Failed to save "${form.title}"`, { type: 'error' });
+      });
   };
 
   const handleChange = (e) => {

@@ -19,7 +19,8 @@ export default function Journey() {
     document.title = "Samuel R | Journey";
   }, []);
 
-  const workMilestones = milestones.filter(m => ['Work', 'Education', 'Certification'].includes(m.milestone_type));
+  const workMilestones = milestones.filter(m => ['Work', 'Education'].includes(m.milestone_type));
+  const certMilestones = milestones.filter(m => m.milestone_type === 'Certification');
   const orgMilestones = milestones.filter(m => m.milestone_type === 'Organization');
   const activityMilestones = milestones.filter(m => m.milestone_type === 'Activity');
 
@@ -53,6 +54,7 @@ export default function Journey() {
         </>
       )}
 
+      <ActivityStrip milestones={certMilestones} imgBase={imgBase} label="Certifications" />
       <OrgGallery milestones={orgMilestones} imgBase={imgBase} />
       <ActivityStrip milestones={activityMilestones} imgBase={imgBase} />
     </div>

@@ -1,3 +1,5 @@
+import { notifyGlobal } from './notifier';
+
 const API_BASE = import.meta.env.VITE_API_URL;
 
 function authHeaders() {
@@ -10,6 +12,7 @@ function authHeaders() {
 function handleResponse(res, navigate) {
   if (res.status === 401) {
     localStorage.removeItem('token');
+    notifyGlobal('Session expired — logged out', { type: 'warning' });
     navigate('/login');
     throw new Error('Unauthorized');
   }

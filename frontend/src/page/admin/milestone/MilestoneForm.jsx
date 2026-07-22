@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { api } from '@/lib/api';
 import GalleryUpload from '@/components/editor/GalleryUpload';
+import { useNotification } from '@/components/context/NotificationContext';
 
 const TYPES = ['Work', 'Organization', 'Activity', 'Education', 'Certification'];
-const PHOTO_FOCUSED_TYPES = ['Organization', 'Activity'];
+const PHOTO_FOCUSED_TYPES = ['Organization', 'Activity', 'Certification'];
 
 export default function MilestoneForm() {
   const navigate = useNavigate();
+  const { notify } = useNotification();
   const location = useLocation();
   const existing = location.state?.milestone;
 
@@ -33,7 +35,15 @@ export default function MilestoneForm() {
       ? api.updateMilestone(existing.id, payload, navigate)
       : api.createMilestone(payload, navigate);
 
-    call.then(() => navigate('/admin/milestones')).catch(err => console.error("Submit error:", err));
+    call
+      .then(() => {
+        notify(`"${form.title}" ${existing ? 'updated' : 'created'}`);
+        navigate('/admin/milestones');
+      })
+      .catch(err => {
+        console.error("Submit error:", err);
+        notify(`Failed to save "${form.title}"`, { type: 'error' });
+      });
   };
 
   const inputStyles = "bg-black border-2 border-neutral-800 text-white p-3 w-full focus:outline-none focus:border-[var(--blood)] transition-colors duration-150";

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { msUntilExpiry, isTokenValid } from '@/lib/auth';
+import { notifyGlobal } from '@/lib/notifier';
 
 const WARNING_THRESHOLD = 5 * 60 * 1000; // 5 minutes
 
@@ -12,7 +13,10 @@ export default function SessionWarning() {
     const check = () => {
       const token = localStorage.getItem('token');
       if (!isTokenValid(token)) {
-        localStorage.removeItem('token');
+        if (token) {
+          localStorage.removeItem('token');
+          notifyGlobal('Session expired — logged out', { type: 'warning' });
+        }
         navigate('/login');
         return;
       }
@@ -20,7 +24,7 @@ export default function SessionWarning() {
     };
 
     check();
-    const interval = setInterval(check, 15000); // recheck every 15s
+    const interval = setInterval(check, 15000);
     return () => clearInterval(interval);
   }, [navigate]);
 
@@ -31,10 +35,7 @@ export default function SessionWarning() {
   return (
     <div className="bg-[var(--blood)] text-black text-xs font-bold uppercase tracking-widest px-6 py-2 flex items-center justify-between">
       <span>Session expires in ~{minutesLeft} min — save your work</span>
-      <button
-        onClick={() => navigate('/login')}
-        className="underline hover:no-underline"
-      >
+      <button onClick={() => navigate('/login')} className="underline hover:no-underline">
         Re-login now
       </button>
     </div>

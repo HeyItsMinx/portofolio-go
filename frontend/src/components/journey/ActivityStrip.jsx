@@ -3,7 +3,7 @@ import { motion, useAnimationFrame, useScroll, useVelocity, useSpring, useTransf
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import ImageModal from '../media/ImageModal';
 
-export default function ActivityStrip({ milestones, imgBase }) {
+export default function ActivityStrip({ milestones, imgBase, label = 'Activity' }) {
   const [modal, setModal] = useState(null);
   const scrollRef = useRef(null);
   const isInteracting = useRef(false);
@@ -71,7 +71,7 @@ export default function ActivityStrip({ milestones, imgBase }) {
   return (
     <section className="py-16">
       <div className="max-w-6xl mx-auto px-8 mb-8 flex items-center justify-between">
-        <p className="text-[var(--blood)] uppercase tracking-[0.3em] text-xs font-bold">Activity</p>
+        <p className="text-[var(--blood)] uppercase tracking-[0.3em] text-xs font-bold">{label}</p>
 
         {showNav && (
           <div className="flex gap-2">

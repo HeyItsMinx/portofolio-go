@@ -3,11 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { api } from '@/lib/api';
+import { useNotification } from '@/components/context/NotificationContext';
 
 export default function MilestoneList() {
   const [milestones, setMilestones] = useState([]);
   const [deleteModal, setDeleteModal] = useState({ isOpen: false, id: null, title: '' });
   const navigate = useNavigate();
+  const { notify } = useNotification();
 
   const fetchMilestones = () => {
     api.getMilestones()
@@ -20,10 +22,14 @@ export default function MilestoneList() {
   const confirmDelete = () => {
     api.deleteMilestone(deleteModal.id, navigate)
       .then(() => {
+        notify(`"${deleteModal.title}" purged`, { type: 'delete' });
         setDeleteModal({ isOpen: false, id: null, title: '' });
         fetchMilestones();
       })
-      .catch(err => console.error("Delete error:", err));
+      .catch(err => {
+        console.error("Delete error:", err);
+        notify(`Failed to purge "${deleteModal.title}"`, { type: 'error' });
+      });
   };
 
   return (
