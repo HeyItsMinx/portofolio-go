@@ -6,7 +6,6 @@ const STATUS_LINES = [
   'METRIC: 23+ Enterprise Apps Delivered',
 ];
 
-
 function TickerTrack() {
   return (
     <div className="flex gap-12 shrink-0 pr-12">

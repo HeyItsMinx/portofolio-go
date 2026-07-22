@@ -117,16 +117,16 @@ export default function ActivityStrip({ milestones, imgBase }) {
                 style={{ clipPath: 'polygon(0 0, 100% 0, 100% 100%, 12px 100%, 0 calc(100% - 12px))' }}
               >
                 {cover ? (
-                  <div className="w-full bg-black flex items-center justify-center overflow-hidden">
+                  <div className="w-full aspect-[4/3] bg-black overflow-hidden">
                     <img
                       src={cover}
                       alt={m.title}
                       onClick={() => setModal({ images, index: 0 })}
-                      className="w-full h-auto max-h-[380px] object-contain cursor-zoom-in"
+                      className="w-full h-full object-cover cursor-zoom-in"
                     />
                   </div>
                 ) : (
-                  <div className="w-full aspect-[4/5] bg-neutral-900 flex items-center justify-center text-neutral-700 text-xs uppercase tracking-widest">
+                  <div className="w-full aspect-[4/3] bg-neutral-900 flex items-center justify-center text-neutral-700 text-xs uppercase tracking-widest">
                     No Photo
                   </div>
                 )}
