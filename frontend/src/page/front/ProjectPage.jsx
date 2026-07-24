@@ -12,7 +12,15 @@ export default function ProjectsPage() {
 
   useEffect(() => {
     api.GetProjects()
-      .then(data => setProjects(data || []))
+      .then(data => {
+        const sorted = [...(data || [])].sort((a, b) => {
+          if (a.is_featured !== b.is_featured) {
+            return a.is_featured ? -1 : 1;
+          }
+          return (a.sort_order ?? 0) - (b.sort_order ?? 0);
+        });
+        setProjects(sorted);
+      })
       .catch(err => console.error("Fetch error:", err));
   }, []);
 
