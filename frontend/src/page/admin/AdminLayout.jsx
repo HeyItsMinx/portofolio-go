@@ -1,9 +1,9 @@
+import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import SessionWarning from '@/components/admin/SessionWarning';
 
 export default function AdminLayout() {
-
     useEffect(() => {
         document.title = "ADMIN | Backdoor";
     }, []);
