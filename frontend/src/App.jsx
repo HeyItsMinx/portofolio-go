@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import BootSequence from './components/boot/BootSequence';
 import Cursor from './components/cursor/Cursor';
+import ScrollToTop from './components/routing/ScrollToTop';
 import ProtectedRoute from "./page/ProtectedRoute";
 import { NotificationProvider } from './components/context/NotificationContext';
 import NotFound from './page/front/NotFound';
@@ -36,6 +37,7 @@ function App() {
       { !booted && <BootSequence onComplete={handleBootComplete} />}
       <Cursor />
       <BrowserRouter>
+        <ScrollToTop />
         <Routes>
           {/* Public */}
           <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
