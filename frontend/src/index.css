@@ -212,3 +212,26 @@ body {
 /* Scroll Bar */
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { scrollbar-width: none; }
+
+html.public-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--blood) #000000;
+}
+ 
+html.public-scrollbar::-webkit-scrollbar {
+  width: 10px;
+}
+ 
+html.public-scrollbar::-webkit-scrollbar-track {
+  background: #000000;
+}
+ 
+html.public-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--blood);
+  border: 2px solid #000000;
+  border-radius: 0;
+}
+ 
+html.public-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #ffffff;
+}
